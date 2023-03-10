@@ -3,8 +3,10 @@ package com.tournamentmanager.tournament;
 import com.tournamentmanager.match.Match;
 import com.tournamentmanager.match.MatchRepository;
 import com.tournamentmanager.team.Team;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -18,36 +20,37 @@ public class TournamentService {
 
     private final MatchRepository matchRepository;
 
-    public List<Match> generateSEMatches(Long tournamentId){
-        log.warn("log test");
-        Optional<Tournament> tournament = tournamentRepository.findById(tournamentId);
-        Random rand = new Random();
-        if (tournament.get().getMatches().isEmpty()) {
-            Set<Team> enrolled = tournament.get().getTeams();
-
-            // Remove one team randomly if there is even number of teams enrolled
-            if (enrolled.size()%2!=0){
-                tournament.get().getTeams().remove(
-                        tournament.get().getTeams().stream().toList().get(
-                                rand.nextInt(enrolled.size())
-                        )
-                );
-            }
-            List<Team> teams = new ArrayList<>(enrolled.stream().toList());
-            //List<Team> teams = enrolled.stream().toList();
+    @Transactional
+    public List<Match> generateSEMatches(Long tournamentId) throws Exception {
+        //log.warn("log test");
+        Tournament tournament = tournamentRepository.findById(tournamentId).orElseThrow(() -> new Exception("Tournament not found") );
+        if (tournament.getMatches().isEmpty()) {
+            Set<Team> enrolled = tournament.getTeams();
             List<Match> matches = new ArrayList<>();
-            while (!teams.isEmpty()) {
-                int randomTeam = rand.nextInt(teams.size());
-                Match match = new Match(teams.get(0),teams.get(randomTeam),1 ,tournament.get());
-                matches.add(match);
-                teams.remove(randomTeam);
-                teams.remove(0);
+
+            for (int i=0; i<tournament.getPhases(); i++) {
+                generateRoundMatches(matches, enrolled.stream().toList(), tournament, i);
             }
-            tournament.get().setMatches(matches);
-            tournamentRepository.save(tournament.get());
+
+            tournament.setMatches(matches);
+            tournamentRepository.save(tournament);
         }
 
-        return matchRepository.findAllByTournament(tournament);
-        //return tournament.get().getMatches().stream().toList();
+        Optional<Tournament> OptTournament = Optional.of(tournament);
+        return matchRepository.findAllByTournament(OptTournament);
+    }
+
+    private void generateRoundMatches(List<Match> matches, List<Team> teams,Tournament tournament, int phase) {
+        Collections.shuffle(teams);
+        int teamsNumber = 0;
+        if(teams.size() % 2 == 0){
+            teamsNumber = teams.size();
+        } else {
+            teamsNumber = teams.size()-1;
+            matches.add(new Match(teams.get(teams.size()),1 , null, 0,phase ,tournament));
+        }
+        for (int i=0; i<teamsNumber; i=i+2){
+            matches.add(new Match(teams.get(i),teams.get(i+1),phase ,tournament));
+        }
     }
 }

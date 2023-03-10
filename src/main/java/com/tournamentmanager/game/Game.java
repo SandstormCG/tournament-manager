@@ -1,19 +1,21 @@
 package com.tournamentmanager.game;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tournamentmanager.tournament.Tournament;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Table
 @NoArgsConstructor
+@Getter
+@EqualsAndHashCode
+@AllArgsConstructor
 public class Game {
 
     @Id
@@ -23,14 +25,12 @@ public class Game {
     private Long id;
 
     @Column(nullable = false)
-    @Getter
     @Setter
     private String name;
 
-    @Getter
     @Setter
     @OneToMany(cascade = CascadeType.ALL, mappedBy="game")
-    @JsonManagedReference
+    @JsonBackReference
     private List<Tournament> tournaments;
 
     public Game (String name){

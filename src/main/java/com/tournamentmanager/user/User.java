@@ -5,9 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tournamentmanager.team.Team;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,6 +14,9 @@ import java.util.Set;
 @Entity
 @Table (name="app_users")
 @NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@EqualsAndHashCode
 public class User{
     @Id
     @SequenceGenerator(name = "user_id_seq", sequenceName = "user_id_seq", allocationSize = 1)
@@ -24,22 +25,19 @@ public class User{
     private Long id;
 
     @Column(nullable = false)
-    @Getter
     @Setter
     private String nick;
 
     @Column(nullable = false)
-    @Getter
     @Setter
     private String email;
 
     @Column(nullable = false)
-    @Getter
     @Setter
     private String password;
 
 
-    @Getter
+
     @Setter
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name="team_member", joinColumns = {@JoinColumn(name="user_id")},

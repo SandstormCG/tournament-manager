@@ -8,9 +8,7 @@ import com.tournamentmanager.team.Team;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.List;
@@ -19,6 +17,9 @@ import java.util.Set;
 @Entity
 @Table
 @NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@EqualsAndHashCode
 public class Tournament {
 
     @Id
@@ -27,37 +28,30 @@ public class Tournament {
     @Column(name="tournament_id")
     private Long id;
 
-    @Getter
-    @Setter
     @Column(nullable = false)
+    @Setter
     private String name;
 
-    @Getter
+    @Column(nullable = false)
     @Setter
+    private int phases;
+
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="game_id", nullable = false)
-    @JsonBackReference
+    @JsonManagedReference
+    @Setter
     private Game game;
 
-
-    @Getter
     @Setter
     @OneToMany(cascade = CascadeType.ALL, mappedBy="tournament")
     @Column(nullable = false)
     @JsonManagedReference
     private List<Match> matches;
 
-    @Getter
     @Setter
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name="enrolled", joinColumns = {@JoinColumn(name="tournament_id")},
             inverseJoinColumns = { @JoinColumn(name="team_id")})
-    @JsonManagedReference
     private Set<Team> teams = new HashSet<Team>();
 
-    public Tournament (String name, Game game) {
-        super();
-        this.name = name;
-        this.game = game;
-    }
 }

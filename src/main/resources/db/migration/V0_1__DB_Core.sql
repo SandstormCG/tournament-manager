@@ -81,8 +81,8 @@ CREATE TABLE public.match (
     phase integer NOT NULL,
     score_team_a integer,
     score_team_b integer,
-    team_a bigint NOT NULL,
-    team_b bigint NOT NULL,
+    team_a bigint,
+    team_b bigint,
     tournament bigint NOT NULL
 );
 
@@ -149,6 +149,7 @@ ALTER TABLE public.team_member OWNER TO postgres;
 CREATE TABLE public.tournament (
     tournament_id bigint NOT NULL,
     name character varying(255) NOT NULL,
+    phases integer NOT NULL,
     game_id bigint NOT NULL
 );
 
@@ -182,6 +183,7 @@ CREATE SEQUENCE public.user_id_seq
 
 
 ALTER TABLE public.user_id_seq OWNER TO postgres;
+
 
 --
 -- Name: game_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres

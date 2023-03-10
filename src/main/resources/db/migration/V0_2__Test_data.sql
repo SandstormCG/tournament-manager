@@ -24,8 +24,8 @@ COPY public.game (game_id, name) FROM stdin;
 -- Data for Name: tournament; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.tournament (tournament_id, name, game_id) FROM stdin;
-1	tournament_1	1
+COPY public.tournament (tournament_id, name, phases, game_id) FROM stdin;
+1	tournament_1	3	1
 \.
 
 
