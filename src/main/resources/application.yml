@@ -14,3 +14,14 @@ spring:
     url: "jdbc:postgresql://localhost:5332/trmng"
     username: postgres
     password: trmngpass
+
+flyway:
+  url: "jdbc:postgresql://localhost:5332/trmng"
+  user: postgres
+  password: trmngpass
+  locations: "filesystem:db/migration"
+  #schemas: USERSERVICE
+
+#logging:
+#  level:
+#    root: debug
