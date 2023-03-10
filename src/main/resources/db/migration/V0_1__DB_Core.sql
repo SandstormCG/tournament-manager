@@ -79,11 +79,11 @@ ALTER TABLE public.game_id_seq OWNER TO postgres;
 CREATE TABLE public.match (
     match_id bigint NOT NULL,
     phase integer NOT NULL,
-    score_team_a integer NOT NULL,
-    score_team_b integer NOT NULL,
-    team_a bigint,
-    team_b bigint,
-    tournament bigint
+    score_team_a integer,
+    score_team_b integer,
+    team_a bigint NOT NULL,
+    team_b bigint NOT NULL,
+    tournament bigint NOT NULL
 );
 
 
@@ -149,7 +149,7 @@ ALTER TABLE public.team_member OWNER TO postgres;
 CREATE TABLE public.tournament (
     tournament_id bigint NOT NULL,
     name character varying(255) NOT NULL,
-    game bigint
+    game_id bigint NOT NULL
 );
 
 
@@ -215,7 +215,7 @@ SELECT pg_catalog.setval('public.tournament_id_seq', 1, false);
 -- Name: user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.user_id_seq', 3, true);
+SELECT pg_catalog.setval('public.user_id_seq', 1, false);
 
 
 --
@@ -299,19 +299,19 @@ ALTER TABLE ONLY public.enrolled
 
 
 --
+-- Name: tournament fk5iaxeujiox85paiek0n3rh3k8; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tournament
+    ADD CONSTRAINT fk5iaxeujiox85paiek0n3rh3k8 FOREIGN KEY (game_id) REFERENCES public.game(game_id);
+
+
+--
 -- Name: enrolled fk7wa8uqtg1pjbjw9cdhhw45aah; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.enrolled
     ADD CONSTRAINT fk7wa8uqtg1pjbjw9cdhhw45aah FOREIGN KEY (team_id) REFERENCES public.team(team_id);
-
-
---
--- Name: tournament fk8wncrcu1ehffwfs0bnfxpt5lw; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.tournament
-    ADD CONSTRAINT fk8wncrcu1ehffwfs0bnfxpt5lw FOREIGN KEY (game) REFERENCES public.game(game_id);
 
 
 --
