@@ -3,6 +3,8 @@ package com.tournamentmanager.tournament;
 import com.tournamentmanager.game.Game;
 import com.tournamentmanager.match.Match;
 import com.tournamentmanager.team.Team;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,21 +25,22 @@ public class Tournament {
     @Column(name="tournament_id")
     private Long id;
 
-    @Column(nullable = false)
     @Getter
     @Setter
+    @Column(nullable = false)
     private String name;
 
     @Getter
     @Setter
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="game")
+    @JoinColumn(name="game_id", nullable = false)
     private Game game;
 
 
     @Getter
     @Setter
     @OneToMany(cascade = CascadeType.ALL, mappedBy="tournament")
+    @Column(nullable = false)
     private List<Match> matches;
 
     @Getter

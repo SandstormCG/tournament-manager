@@ -21,31 +21,34 @@ public class Match {
     @Getter
     @Setter
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="team_a")
+    @JoinColumn(name="team_a", nullable = false)
     private Team team_a;
 
     @Getter
     @Setter
+    @Column(nullable = true)
     private int score_team_a;
 
     @Getter
     @Setter
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="team_b")
+    @JoinColumn(name="team_b", nullable = false)
     private Team team_b;
 
     @Getter
     @Setter
+    @Column(nullable = true)
     private int score_team_b;
 
     @Getter
     @Setter
+    @Column(nullable = false)
     private int phase;
 
     @Getter
     @Setter
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="tournament")
+    @JoinColumn(name="tournament", nullable = false)
     private Tournament tournament;
 
 

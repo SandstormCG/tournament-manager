@@ -1,6 +1,7 @@
 package com.tournamentmanager.user;
 
 import com.tournamentmanager.team.Team;
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,8 @@
 package com.tournamentmanager.game;
 
 import com.tournamentmanager.tournament.Tournament;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
