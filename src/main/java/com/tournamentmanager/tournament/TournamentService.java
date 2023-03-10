@@ -3,11 +3,10 @@ package com.tournamentmanager.tournament;
 import com.tournamentmanager.match.Match;
 import com.tournamentmanager.match.MatchRepository;
 import com.tournamentmanager.team.Team;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -25,11 +24,11 @@ public class TournamentService {
         //log.warn("log test");
         Tournament tournament = tournamentRepository.findById(tournamentId).orElseThrow(() -> new Exception("Tournament not found") );
         if (tournament.getMatches().isEmpty()) {
-            Set<Team> enrolled = tournament.getTeams();
+            List<Team> enrolled = tournament.getTeams();
             List<Match> matches = new ArrayList<>();
 
             for (int i=0; i<tournament.getPhases(); i++) {
-                generateRoundMatches(matches, enrolled.stream().toList(), tournament, i);
+                generateRoundMatches(matches, enrolled, tournament, i);
             }
 
             tournament.setMatches(matches);

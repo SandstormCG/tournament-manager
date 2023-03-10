@@ -17,7 +17,7 @@ public class TournamentController {
     private final TournamentService tournamentService;
 
 
-    @RequestMapping(path="single-elimination/{tournamentId}")
+    @RequestMapping(path="generate/{tournamentId}")
     public List<Match> setSingleEliminationMatches(@PathVariable("tournamentId") Long tournamentId) throws Exception {
         return tournamentService.generateSEMatches(tournamentId);
     }

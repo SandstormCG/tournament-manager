@@ -1,16 +1,13 @@
 package com.tournamentmanager.user;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tournamentmanager.team.Team;
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
-// Change table name to app_users to avoid conflict with user keyword in postgresql
+// Changed table name to app_users to avoid conflict with user keyword in postgresql
 @Entity
 @Table (name="app_users")
 @NoArgsConstructor
@@ -43,7 +40,7 @@ public class User{
     @JoinTable(name="team_member", joinColumns = {@JoinColumn(name="user_id")},
                 inverseJoinColumns = { @JoinColumn(name="team_id")})
     @JsonBackReference
-    private Set<Team> teams = new HashSet<Team>();
+    private List<Team> teams;
 
     public User(String nick, String email, String password){
         super();

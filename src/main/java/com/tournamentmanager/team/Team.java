@@ -5,13 +5,10 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tournamentmanager.match.Match;
 import com.tournamentmanager.tournament.Tournament;
 import com.tournamentmanager.user.User;
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table
@@ -37,7 +34,7 @@ public class Team {
     @ManyToMany(mappedBy="teams")
     @Setter
     @JsonManagedReference
-    private Set<User> players = new HashSet<User>();
+    private List<User> players;
 
     @Setter
     @OneToMany(cascade = CascadeType.ALL, mappedBy="team_a")
@@ -51,7 +48,7 @@ public class Team {
 
     @ManyToMany(mappedBy="teams")
     @Setter
-    private Set<Tournament> tournaments = new HashSet<Tournament>();
+    private List<Tournament> tournaments;
 
     public Team(String name, int size){
         super();
