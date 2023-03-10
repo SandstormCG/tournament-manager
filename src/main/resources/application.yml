@@ -1,0 +1,16 @@
+# Database properties
+
+spring:
+  jpa:
+    show-sql: true
+    generate-ddl: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: validate
+  datasource:
+    url: "jdbc:postgresql://localhost:5332/trmng"
+    username: postgres
+    password: trmngpass
