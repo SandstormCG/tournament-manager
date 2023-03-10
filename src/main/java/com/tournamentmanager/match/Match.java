@@ -1,5 +1,7 @@
 package com.tournamentmanager.match;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tournamentmanager.team.Team;
 import com.tournamentmanager.tournament.Tournament;
 import jakarta.persistence.*;
@@ -20,8 +22,9 @@ public class Match {
 
     @Getter
     @Setter
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="team_a", nullable = false)
+    @JsonManagedReference
     private Team team_a;
 
     @Getter
@@ -31,8 +34,9 @@ public class Match {
 
     @Getter
     @Setter
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="team_b", nullable = false)
+    @JsonManagedReference
     private Team team_b;
 
     @Getter
@@ -49,6 +53,7 @@ public class Match {
     @Setter
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="tournament", nullable = false)
+    @JsonBackReference
     private Tournament tournament;
 
 

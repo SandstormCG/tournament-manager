@@ -1,5 +1,6 @@
 package com.tournamentmanager.game;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tournamentmanager.tournament.Tournament;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
@@ -29,6 +30,7 @@ public class Game {
     @Getter
     @Setter
     @OneToMany(cascade = CascadeType.ALL, mappedBy="game")
+    @JsonManagedReference
     private List<Tournament> tournaments;
 
     public Game (String name){

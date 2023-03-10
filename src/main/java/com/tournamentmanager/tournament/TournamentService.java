@@ -1,6 +1,7 @@
 package com.tournamentmanager.tournament;
 
 import com.tournamentmanager.match.Match;
+import com.tournamentmanager.match.MatchRepository;
 import com.tournamentmanager.team.Team;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,8 @@ import java.util.*;
 public class TournamentService {
 
     private final TournamentRepository tournamentRepository;
+
+    private final MatchRepository matchRepository;
 
     public List<Match> generateSEMatches(Long tournamentId){
         log.warn("log test");
@@ -44,6 +47,7 @@ public class TournamentService {
             tournamentRepository.save(tournament.get());
         }
 
-        return tournament.get().getMatches();
+        return matchRepository.findAllByTournament(tournament);
+        //return tournament.get().getMatches().stream().toList();
     }
 }

@@ -1,5 +1,7 @@
 package com.tournamentmanager.tournament;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tournamentmanager.game.Game;
 import com.tournamentmanager.match.Match;
 import com.tournamentmanager.team.Team;
@@ -34,6 +36,7 @@ public class Tournament {
     @Setter
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="game_id", nullable = false)
+    @JsonBackReference
     private Game game;
 
 
@@ -41,6 +44,7 @@ public class Tournament {
     @Setter
     @OneToMany(cascade = CascadeType.ALL, mappedBy="tournament")
     @Column(nullable = false)
+    @JsonManagedReference
     private List<Match> matches;
 
     @Getter
@@ -48,6 +52,7 @@ public class Tournament {
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name="enrolled", joinColumns = {@JoinColumn(name="tournament_id")},
             inverseJoinColumns = { @JoinColumn(name="team_id")})
+    @JsonManagedReference
     private Set<Team> teams = new HashSet<Team>();
 
     public Tournament (String name, Game game) {

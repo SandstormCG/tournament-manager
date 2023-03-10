@@ -1,5 +1,7 @@
 package com.tournamentmanager.user;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tournamentmanager.team.Team;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
@@ -42,6 +44,7 @@ public class User{
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name="team_member", joinColumns = {@JoinColumn(name="user_id")},
                 inverseJoinColumns = { @JoinColumn(name="team_id")})
+    @JsonBackReference
     private Set<Team> teams = new HashSet<Team>();
 
     public User(String nick, String email, String password){
